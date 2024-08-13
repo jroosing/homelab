@@ -58,6 +58,6 @@ ensure_path_exists() {
                         echo "Path '$dir' already exists. Skipping."
                         continue
                 fi
-                doas mkdir -pv "$dir"
+                sudo mkdir -pv "$dir"
         done
 }

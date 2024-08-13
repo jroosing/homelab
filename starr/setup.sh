@@ -50,7 +50,7 @@ sudo chown -R recyclarr:mediacenter ${ROOT_DIR:-.}/config/recyclarr
 sudo chown -R prowlarr:mediacenter ${ROOT_DIR:-.}/config/prowlarr
 sudo chown -R overseerr:mediacenter ${ROOT_DIR:-.}/config/overseerr
 sudo chown -R plex:mediacenter ${ROOT_DIR:-.}/config/plex
-sudo chown -R rdtclient:mediacenter ${ROOT_DIR:-.}/config/rdt
+sudo chown -R rdtclient:mediacenter ${ROOT_DIR:-.}/config/rdtclient
 sudo chown -R autoscan:mediacenter ${ROOT_DIR:-.}/config/autoscan
 
 echo "Done! It is recommended to reboot now."

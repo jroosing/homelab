@@ -44,14 +44,14 @@ doas chmod -R a=,a+rX,u+w,g+w ${ROOT_DIR:-.}/config/
 
 doas chown -R $UID:mediacenter ${ROOT_DIR:-.}/data/
 doas chown -R $UID:mediacenter ${ROOT_DIR:-.}/config/
-doas chown -R sonarr:mediacenter ${ROOT_DIR:-.}/config/sonarr-config
-doas chown -R radarr:mediacenter ${ROOT_DIR:-.}/config/radarr-config
-doas chown -R recyclarr:mediacenter ${ROOT_DIR:-.}/config/recyclarr-config
-doas chown -R prowlarr:mediacenter ${ROOT_DIR:-.}/config/prowlarr-config
-doas chown -R overseerr:mediacenter ${ROOT_DIR:-.}/config/overseerr-config
-doas chown -R plex:mediacenter ${ROOT_DIR:-.}/config/plex-config
-doas chown -R rdtclient:mediacenter ${ROOT_DIR:-.}/config/rdt-config
-doas chown -R autoscan:mediacenter ${ROOT_DIR:-.}/config/autoscan-config
+doas chown -R sonarr:mediacenter ${ROOT_DIR:-.}/config/sonarr
+doas chown -R radarr:mediacenter ${ROOT_DIR:-.}/config/radarr
+doas chown -R recyclarr:mediacenter ${ROOT_DIR:-.}/config/recyclarr
+doas chown -R prowlarr:mediacenter ${ROOT_DIR:-.}/config/prowlarr
+doas chown -R overseerr:mediacenter ${ROOT_DIR:-.}/config/overseerr
+doas chown -R plex:mediacenter ${ROOT_DIR:-.}/config/plex
+doas chown -R rdtclient:mediacenter ${ROOT_DIR:-.}/config/rdt
+doas chown -R autoscan:mediacenter ${ROOT_DIR:-.}/config/autoscan
 
 echo "Done! It is recommended to reboot now."
 

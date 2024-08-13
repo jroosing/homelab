@@ -15,12 +15,11 @@ create_group() {
         # Check if the group already exists
         if getent group "$groupname" >/dev/null 2>&1; then
                 echo "Group $groupname exists."
-                return 0
+        else
+                # Create group if it does not exist
+                sudo groupadd "$groupname" -g "$gid"
+                echo "Group $groupname created."
         fi
-
-        # Create group if it does not exist
-        sudo groupadd "$groupname" -g "$gid"
-        echo "Group $groupname created."
 }
 
 create_user() {
@@ -36,14 +35,13 @@ create_user() {
         # Check if the user already exists
         if id "$username" &>/dev/null; then
                 echo "User $username already exists. Skipping."
-                return 0
+        else
+                # Create the user and add to specified group
+                sudo useradd "$username" -u "$uid"
+                sudo usermod -aG "$group" "$username"
+
+                echo "User $username created with UID $uid and added to group $group."
         fi
-
-        # Create the user and add to specified group
-        sudo useradd "$username" -u "$uid"
-        sudo usermod -aG "$group" "$username"
-
-        echo "User $username created with UID $uid and added to group $group."
 }
 
 # function to check if an entire path exists, and create it if it doesn't

@@ -46,14 +46,12 @@ create_user() {
 
 # function to check if an entire path exists, and create it if it doesn't
 ensure_path_exists() {
-        if [ "$#" -ne 1 ]; then
+        if [ "$#" -lt 1 ]; then
                 echo "Usage: ensure_path_exists <path>"
                 return 1
         fi
 
-        local path="$1"
-
-        for dir in "$@"; then
+        for dir in "$@"; do
                 if [ -d "$dir" ]; then
                         echo "Path '$dir' already exists. Skipping."
                         continue

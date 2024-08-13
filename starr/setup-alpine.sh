@@ -11,7 +11,7 @@ source .env
 set +a
 
 # include useful functions such as create_group and create_user
-source ./functions.sh
+source ./alpine-functions.sh
 
 # Create group and users
 # Reboot is recommended after running this script to make sure all changes take effect
@@ -30,10 +30,29 @@ create_user "autoscan" "${AUTOSCAN_UID}" "mediacenter"
 # Create directories for the *arr setup
 # ${ROOT_DIR:-.}/ means take the value from ROOT_DIR, or place in current dir
 # Application configuration directories
-#doas mkdir -pv ${ROOT_DIR:-.}/config/{sonarr,radarr,recyclarr,prowlarr,overseerr,plex,rdt,autoscan}
+ensure_path_exists ${ROOT_DIR:-.}/config/{sonarr,radarr,recyclarr,prowlarr,overseerr,plex,rdt,autoscan}
 # Symlink directories
-#doas mkdir -pv ${ROOT_DIR:-.}/data/symlinks/{radarr,sonarr}
+ensure_path_exists ${ROOT_DIR:-.}/data/symlinks/{radarr,sonarr}
 # Location symlinks resolve to
-#doas mkdir -pv ${ROOT_DIR:-.}/data/realdebrid-zurg
+ensure_path_exists ${ROOT_DIR:-.}/data/realdebrid-zurg
 # Media folders.
-#doas mkdir -pv ${ROOT_DIR:-.}/data/media/{movies,tv}
+ensure_path_exists ${ROOT_DIR:-.}/data/media/{movies,tv}
+
+# Set permissions
+# Recursively chmod to 775/664
+doas chmod -R a=,a+rX,u+w,g+w ${ROOT_DIR:-.}/data/
+doas chmod -R a=,a+rX,u+w,g+w ${ROOT_DIR:-.}/config/
+
+doas chown -R $UID:mediacenter ${ROOT_DIR:-.}/data/
+doas chown -R $UID:mediacenter ${ROOT_DIR:-.}/config/
+doas chown -R sonarr:mediacenter ${ROOT_DIR:-.}/config/sonarr-config
+doas chown -R radarr:mediacenter ${ROOT_DIR:-.}/config/radarr-config
+doas chown -R recyclarr:mediacenter ${ROOT_DIR:-.}/config/recyclarr-config
+doas chown -R prowlarr:mediacenter ${ROOT_DIR:-.}/config/prowlarr-config
+doas chown -R overseerr:mediacenter ${ROOT_DIR:-.}/config/overseerr-config
+doas chown -R plex:mediacenter ${ROOT_DIR:-.}/config/plex-config
+doas chown -R rdtclient:mediacenter ${ROOT_DIR:-.}/config/rdt-config
+doas chown -R autoscan:mediacenter ${ROOT_DIR:-.}/config/autoscan-config
+
+echo "Done! It is recommended to reboot now."
+

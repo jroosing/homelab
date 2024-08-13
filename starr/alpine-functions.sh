@@ -41,3 +41,21 @@ create_user() {
 
         echo "User $username created with UID $uid and added to group $group."
 }
+
+# function to check if an entire path exists, and create it if it doesn't
+ensure_path_exists() {
+        if [ "$#" -ne 1]; then
+                echo "Usage: ensure_path_exists <path>"
+                return 1
+        fi
+
+        local path="$1"
+
+        if [ -d "$path" ]; then
+                echo "Path '$path' already exists. Skipping."
+                return 0
+        fi
+
+        doas mkdir -pv "$path"
+        echo "Path '$path' created."
+}

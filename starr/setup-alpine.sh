@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -e
-
 # !!! - Set up your .env file BEFORE running this script - !!!
 
 # Export all variables from .env.

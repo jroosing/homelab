@@ -12,6 +12,7 @@ Because we use Real-Debrid which allows us to stream cached torrents we do not n
 - Docker (and compose) should work on any modern version
 - Your own user in your VM/LXC and added to the docker group
 - sudo or doas setup (this setup uses doas for alpine and sudo for debian)
+- Your .env file
 
 ## Setup
 This stack runs on an Alpine LXC created by the excellent LXC helper scripts provided by [https://tteck.github.io/Proxmox/]().

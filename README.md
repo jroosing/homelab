@@ -3,6 +3,18 @@ This document describes my homelab setup which among others includes homepage, a
 
 *DISCLAIMER:* This project is my personal project and there will be no support whatsoever.
 
+## How to use this repo
+Each docker compose stack resides in its own folder. 
+Within the folder you will find the docker-compose.yaml and other configurations sometimes prefixed with _example_.
+
+This is done as a trigger for the user that before running everything some manual work is needed such as collecting API keys, and other variables that will typically need to be put in these files.
+
+For example in the starr directory you will find:
+- example.env
+- example.zurg.yaml
+
+Copy these files and rename them without the example prefix and fill in the blanks
+
 ## Homepage
 [Homepage](https://gethomepage.dev/latest/) is the dashboard from which I will access all my services.
 

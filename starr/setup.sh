@@ -14,7 +14,7 @@ source ./functions.sh
 
 # Create group and users
 # Reboot is recommended after running this script to make sure all changes take effect
-create_group mediacenter
+create_group mediacenter "${MEDIACENTER_GID}"
 
 create_user rclone "${RCLONE_UID}" "mediacenter"
 create_user sonarr "${SONARR_UID}" "mediacenter"

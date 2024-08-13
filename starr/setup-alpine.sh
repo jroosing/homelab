@@ -1,5 +1,6 @@
-  GNU nano 8.0                                                  setup.sh                                                            
 #!/bin/bash
+
+set -e
 
 # !!! - Set up your .env file BEFORE running this script - !!!
 

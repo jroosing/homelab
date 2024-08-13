@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 # helper functions to handle setup of the starr stack
 create_group() {
         if [ "$#" -ne 1 ]; then

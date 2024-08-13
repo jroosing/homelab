@@ -11,6 +11,8 @@ services:
     volumes:
       - ./zurg.yml:/app/config.yml
       - zurg_data:/app/data
+    networks:
+      - homelab
 
   rclone:
     image: rclone/rclone:latest
@@ -41,6 +43,8 @@ services:
         condition: service_healthy
         restart: true
     command: "mount zurg: /data --allow-non-empty --allow-other --uid=${RCLONE_UID} --gid=${MEDIACENTER_GID} --umask=002 --dir-cache-time 10s --vfs-cache-mode full"
+    networks:
+      - homelab
 
   rdtclient:
     image: rogerfar/rdtclient:latest
@@ -62,6 +66,8 @@ services:
       driver: json-file
       options:
         max-size: 10m
+    networks:
+      - homelab
 
   sonarr:
     image: lscr.io/linuxserver/sonarr:latest
@@ -79,6 +85,8 @@ services:
     restart: unless-stopped
     depends_on:
       - rclone
+    networks:
+      - homelab
 
 
   radarr:
@@ -97,6 +105,8 @@ services:
     restart: unless-stopped
     depends_on:
       - rclone
+    networks:
+      - homelab
 
   recyclarr:
     image: ghcr.io/recyclarr/recyclarr:latest
@@ -111,6 +121,8 @@ services:
     depends_on:
       - radarr
       - sonarr
+    networks:
+      - homelab
 
   prowlarr:
     image: lscr.io/linuxserver/prowlarr:develop
@@ -127,6 +139,8 @@ services:
     restart: unless-stopped
     depends_on:
       - rclone
+    networks:
+      - homelab
 
   overseerr:
     image: sctx/overseerr:latest
@@ -145,6 +159,8 @@ services:
       - radarr
       - sonarr
       - prowlarr
+    networks:
+      - homelab
 
   plex:
     image: lscr.io/linuxserver/plex:latest
@@ -161,6 +177,8 @@ services:
     restart: unless-stopped
     depends_on:
       - rclone
+    networks:
+      - homelab
 
   zilean:
     image: ipromknight/zilean:latest
@@ -181,6 +199,8 @@ services:
     depends_on:
       elasticsearch:
         condition: service_healthy
+    networks:
+      - homelab
 
   elasticsearch:
     image: elasticsearch:8.14.1@sha256:ff3998ab3d8a84984e5298d33d01a174fc5f8abed15ad58d0a54364fc63d68d9
@@ -200,8 +220,14 @@ services:
       retries: 10
     volumes:
       - elastic_data:/usr/share/elasticsearch/data:rw
+    networks:
+      - homelab
 
 volumes:
   zurg_data:
   zilean_data:
   elastic_data:
+
+networks:
+  homelab:
+    external: true

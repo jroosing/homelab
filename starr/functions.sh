@@ -4,21 +4,22 @@ set -e
 
 # helper functions to handle setup of the starr stack
 create_group() {
-        if [ "$#" -ne 1 ]; then
-                echo "Usage: create_group <groupname>"
+        if [ "$#" -ne 2 ]; then
+                echo "Usage: create_group <groupname> <group uid>"
                 return 1
         fi
 
         local groupname="$1"
+        local gid="$2"
 
-        # check if group already exists
-        if getent group "$groupname" > /dev/null 2>&1; then
+        # Check if the group already exists
+        if getent group "$groupname" >/dev/null 2>&1; then
                 echo "Group $groupname exists."
                 return 0
         fi
 
-        # create group if it does not exist
-        doas addgroup "$groupname"
+        # Create group if it does not exist
+        sudo groupadd "$groupname" -g "$gid"
         echo "Group $groupname created."
 }
 
@@ -38,8 +39,9 @@ create_user() {
                 return 0
         fi
 
-        # Create the user without a home directory, using the specified UID
-        doas adduser -u "$uid" -G "$group" -D -H "$username"
+        # Create the user and add to specified group
+        sudo useradd "$username" -u "$uid"
+        sudo usermod -aG "$group" "$username"
 
         echo "User $username created with UID $uid and added to group $group."
 }

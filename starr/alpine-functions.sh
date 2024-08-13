@@ -59,5 +59,4 @@ ensure_path_exists() {
         fi
 
         doas mkdir -pv "$path"
-        echo "Path '$path' created."
 }

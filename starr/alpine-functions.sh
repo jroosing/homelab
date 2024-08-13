@@ -46,7 +46,7 @@ create_user() {
 
 # function to check if an entire path exists, and create it if it doesn't
 ensure_path_exists() {
-        if [ "$#" -ne 1]; then
+        if [ "$#" -ne 1 ]; then
                 echo "Usage: ensure_path_exists <path>"
                 return 1
         fi

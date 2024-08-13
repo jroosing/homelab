@@ -53,10 +53,11 @@ ensure_path_exists() {
 
         local path="$1"
 
-        if [ -d "$path" ]; then
-                echo "Path '$path' already exists. Skipping."
-                return 0
-        fi
-
-        doas mkdir -pv "$path"
+        for dir in "$@"; then
+                if [ -d "$dir" ]; then
+                        echo "Path '$dir' already exists. Skipping."
+                        continue
+                fi
+                doas mkdir -pv "$dir"
+        done
 }

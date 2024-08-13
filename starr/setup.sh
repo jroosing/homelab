@@ -24,12 +24,13 @@ create_user prowlarr "${PROWLARR_UID}" "mediacenter"
 create_user overseerr "${OVERSEERR_UID}" "mediacenter"
 create_user "plex" "${PLEX_UID}" "mediacenter"
 create_user "rdtclient" "${RDTCLIENT_UID}" "mediacenter"
+create_user "bazarr" "${BAZARR_UID}" "mediacenter"
 create_user "autoscan" "${AUTOSCAN_UID}" "mediacenter"
 
 # Create directories for the *arr setup
 # ${ROOT_DIR:-.}/ means take the value from ROOT_DIR, or place in current dir
 # Application configuration directories
-ensure_path_exists ${ROOT_DIR:-.}/config/{sonarr,radarr,recyclarr,prowlarr,overseerr,plex,rdtclient,autoscan}
+ensure_path_exists ${ROOT_DIR:-.}/config/{sonarr,radarr,recyclarr,prowlarr,overseerr,plex,rdtclient,bazarr,autoscan}
 # Symlink directories
 ensure_path_exists ${ROOT_DIR:-.}/data/symlinks/{radarr,sonarr}
 # Location symlinks resolve to
@@ -51,7 +52,7 @@ sudo chown -R prowlarr:mediacenter ${ROOT_DIR:-.}/config/prowlarr
 sudo chown -R overseerr:mediacenter ${ROOT_DIR:-.}/config/overseerr
 sudo chown -R plex:mediacenter ${ROOT_DIR:-.}/config/plex
 sudo chown -R rdtclient:mediacenter ${ROOT_DIR:-.}/config/rdtclient
+sudo chown -R bazarr:mediacenter ${ROOT_DIR:-.}/config/bazarr
 sudo chown -R autoscan:mediacenter ${ROOT_DIR:-.}/config/autoscan
 
 echo "Done! It is recommended to reboot now."
-

@@ -10,7 +10,7 @@ source .env
 set +a
 
 # include useful functions such as create_group and create_user
-source ./functions.sh
+source ../functions.sh
 
 # Create group and users
 # Reboot is recommended after running this script to make sure all changes take effect

@@ -5,14 +5,14 @@ services:
     ports:
       - 3000:3000
     volumes:
-      - /home/jroosing/docker-volumes/homepage:/app/config:rw
+      - ${ROOT_DIR}/config:/app/config:rw
       - /var/run/docker.sock:/var/run/docker.sock
     restart: unless-stopped
     environment:
       - HOMEPAGE_VAR_TRAEFIK_PASSWORD=${TRAEFIK_PASSWORD}
       - HOMEPAGE_VAR_PIHOLE_API_KEY=${PIHOLE_API_KEY}
-      - PUID=1000
-      - PGID=1000
+      - PUID=${HOMEPAGE_UID}
+      - PGID=${HOMEPAGE_GID}
     networks:
       - homelab
 
@@ -24,8 +24,8 @@ services:
       - SERVICES=0 # Disallow access to viewing services (necessary when using Docker Swarm)
       - TASKS=0 # Disallow access to viewing tasks (necessary when using Docker Swarm)
       - POST=0 # Disallow any POST operations (effectively read-only)
-      - PUID=1000
-      - PGID=1000
+      - PUID=${HOMEPAGE_UID}
+      - PGID=${HOMEPAGE_GID}
     ports:
       - 127.0.0.1:2375:2375
     volumes:

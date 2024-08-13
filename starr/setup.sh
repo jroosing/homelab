@@ -39,19 +39,19 @@ ensure_path_exists ${ROOT_DIR:-.}/data/media/{movies,tv}
 
 # Set permissions
 # Recursively chmod to 775/664
-doas chmod -R a=,a+rX,u+w,g+w ${ROOT_DIR:-.}/data/
-doas chmod -R a=,a+rX,u+w,g+w ${ROOT_DIR:-.}/config/
+sudo chmod -R a=,a+rX,u+w,g+w ${ROOT_DIR:-.}/data/
+sudo chmod -R a=,a+rX,u+w,g+w ${ROOT_DIR:-.}/config/
 
-doas chown -R $UID:mediacenter ${ROOT_DIR:-.}/data/
-doas chown -R $UID:mediacenter ${ROOT_DIR:-.}/config/
-doas chown -R sonarr:mediacenter ${ROOT_DIR:-.}/config/sonarr
-doas chown -R radarr:mediacenter ${ROOT_DIR:-.}/config/radarr
-doas chown -R recyclarr:mediacenter ${ROOT_DIR:-.}/config/recyclarr
-doas chown -R prowlarr:mediacenter ${ROOT_DIR:-.}/config/prowlarr
-doas chown -R overseerr:mediacenter ${ROOT_DIR:-.}/config/overseerr
-doas chown -R plex:mediacenter ${ROOT_DIR:-.}/config/plex
-doas chown -R rdtclient:mediacenter ${ROOT_DIR:-.}/config/rdt
-doas chown -R autoscan:mediacenter ${ROOT_DIR:-.}/config/autoscan
+sudo chown -R $UID:mediacenter ${ROOT_DIR:-.}/data/
+sudo chown -R $UID:mediacenter ${ROOT_DIR:-.}/config/
+sudo chown -R sonarr:mediacenter ${ROOT_DIR:-.}/config/sonarr
+sudo chown -R radarr:mediacenter ${ROOT_DIR:-.}/config/radarr
+sudo chown -R recyclarr:mediacenter ${ROOT_DIR:-.}/config/recyclarr
+sudo chown -R prowlarr:mediacenter ${ROOT_DIR:-.}/config/prowlarr
+sudo chown -R overseerr:mediacenter ${ROOT_DIR:-.}/config/overseerr
+sudo chown -R plex:mediacenter ${ROOT_DIR:-.}/config/plex
+sudo chown -R rdtclient:mediacenter ${ROOT_DIR:-.}/config/rdt
+sudo chown -R autoscan:mediacenter ${ROOT_DIR:-.}/config/autoscan
 
 echo "Done! It is recommended to reboot now."
 

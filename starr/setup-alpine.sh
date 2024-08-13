@@ -29,7 +29,7 @@ create_user "autoscan" "${AUTOSCAN_UID}" "mediacenter"
 # Create directories for the *arr setup
 # ${ROOT_DIR:-.}/ means take the value from ROOT_DIR, or place in current dir
 # Application configuration directories
-ensure_path_exists ${ROOT_DIR:-.}/config/{sonarr,radarr,recyclarr,prowlarr,overseerr,plex,rdt,autoscan}
+ensure_path_exists ${ROOT_DIR:-.}/config/{sonarr,radarr,recyclarr,prowlarr,overseerr,plex,rdtclient,autoscan}
 # Symlink directories
 ensure_path_exists ${ROOT_DIR:-.}/data/symlinks/{radarr,sonarr}
 # Location symlinks resolve to

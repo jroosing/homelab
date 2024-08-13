@@ -9,7 +9,7 @@ This document describes my homelab setup which among others includes homepage, a
 ## Mediacenter
 Part of my homelab consists of a mediacenter revolving around the [arr stack](https://wiki.servarr.com/), [Plex](https://www.plex.tv) and [Real-Debrid](https://real-debrid.com).
 
-This setup is heavily influenced by [this] (https://github.com/naralux/mediacenter) repo. Many thanks @Naralux for the base setup that helped me along the way.
+This setup is heavily influenced by [this](https://github.com/naralux/mediacenter) repo. Many thanks @Naralux for the base setup that helped me along the way.
 
 See: [mediacenter.md](docs/mediacenter.md) for details regarding the setup
 

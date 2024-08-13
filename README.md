@@ -11,7 +11,7 @@ Part of my homelab consists of a mediacenter revolving around the [arr stack](ht
 
 This setup is heavily influenced by [this] (https://github.com/naralux/mediacenter) repo. Many thanks @Naralux for the base setup that helped me along the way.
 
-See: [docs/mediacenter.md](mediacenter.md) for details regarding the setup
+See: [mediacenter.md](docs/mediacenter.md) for details regarding the setup
 
 
 

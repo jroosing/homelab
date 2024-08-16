@@ -1,0 +1,40 @@
+global:
+  checkNewVersion: true
+  sendAnonymousUsage: false
+
+api:
+  dashboard: true
+  insecure: false
+  debug: false
+  disableDashboardAd: true
+
+accesslog:
+  addInternals: true
+  filePath: "/var/log/traefik-access.log"
+  bufferingSize: 128
+
+log:
+  filePath: "/var/log/traefik-access.log"
+  level: INFO
+  maxAge: 48
+
+providers:
+  file:
+    directory: /etc/traefik/dynamic
+    watch: true
+
+# This bit is needed to allow traefik to generate certificates
+certificatesResolvers:
+  cloudflare:
+    acme:
+      caServer: https://acme-v02.api.letsencrypt.org/directory #prod
+      #caServer: https://acme-staging-v02.api.letsencrypt.org/directory #staging
+      email: <cloudflare email> # add your actual email that you used for cloudflare
+      storage: /etc/traefik/acme.json
+      dnsChallenge:
+        provider: cloudflare
+        delayBeforeCheck: 10s
+        resolvers:
+          - '1.1.1.1:53'
+          - '1.0.0.1:53'
+    

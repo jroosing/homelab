@@ -1,0 +1,35 @@
+http:
+  routers:
+    pihole:
+      entryPoints:
+        - "https"
+      rule: "Host(`pihole.<yourdomain>.com`)"
+      middlewares:
+        - internal-https-hosts
+        - default-headers
+        # middlewares specific to pihole
+        - pihole-redirect
+        - pihole-addprefix
+      tls:
+        certResolver: cloudflare
+        domains:
+          - main: "pihole.<yourdomain>.com"
+      service: pihole
+
+  services:
+    pihole:
+      loadBalancer:
+        servers:
+          - url: "http://<piholeIp>:<piholePort>"
+        passHostHeader: true
+        serversTransport: "insecureVerify"
+    
+  middlewares:
+    pihole-redirect:
+      redirectRegex:
+        regex: /admin/$
+        replacement: /
+
+    pihole-addprefix:
+      addPrefix:
+        prefix: /admin

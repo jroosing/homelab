@@ -1,0 +1,22 @@
+http:
+  routers:
+    proxmox:
+      entryPoints:
+        - "https"
+      rule: "Host(`pve.<yourdomain>.com`)"
+      middlewares:
+        - internal-https-hosts
+        - default-headers
+      tls:
+        certResolver: cloudflare
+        domains:
+          - main: "pve.<yourdomain>.com"
+      service: proxmox
+
+  services:
+    proxmox:
+      loadBalancer:
+        servers:
+          - url: "https://<proxmoxIp>:<proxmoxPort>"
+        passHostHeader: true
+        serversTransport: "insecureVerify"

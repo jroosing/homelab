@@ -1,0 +1,99 @@
+http:
+  routers:
+    dashboard:
+      entryPoints:
+        - "https"
+      rule: "Host(`traefik.<yourdomain>.com`)"
+      service: api@internal
+      middlewares:
+        - auth
+      tls:
+        certResolver: cloudflare
+        domains:
+          - main: "traefik.<yourdomain>.com"
+
+    # catchall rule, evaluated when no router exists for a request; applicable to http and https only
+    catchall:
+      entryPoints:
+        - "http"
+        - "https"
+      rule: "PathPrefix(`/`)"
+      service: unavailable
+      priority: 1
+
+  services:
+
+    # Service that will always provide a 503 service Unavailable response
+    unavailable:
+      loadBalancer:
+        servers: {}
+
+  middlewares:
+    auth:
+      basicAuth:
+        users:
+          # format needs to be <username>:<hashed password> where the password is generated with htpasswd
+          # https://httpd.apache.org/docs/current/programs/htpasswd.html
+          - "<uname>:<hashed password>"
+
+    internal-hosts-endorsed:
+      ipAllowList:
+        sourceRange:
+          - "<CIDR>" # add your allowed ips here, i typically use a /24 or /16 so for example add 192.168.1.0/24 or 192.168.0.0/16
+
+    http-only:
+      redirectScheme:
+        scheme: http
+        permanent: true
+
+    internal-http-hosts:
+      chain:
+        middlewares:
+          - internal-hosts-endorsed
+          - http-only
+
+    https-only:
+      redirectScheme:
+        scheme: https
+        permanent: true
+
+    internal-https-hosts:
+      chain:
+        middlewares:
+          - internal-hosts-endorsed
+          - https-only
+
+    default-headers:
+      headers:
+        frameDeny: true
+        browserXssFilter: true
+        contentTypeNosniff: true
+        forceSTSHeader: true
+        stsPreload: true
+        stsSeconds: 15552000
+        customFrameOptionsValue: SAMEORIGIN
+        customRequestHeaders:
+          X-Forwarded-Proto: https
+
+  serversTransports:
+    insecureVerify:
+      insecureSkipVerify: true
+
+tls:
+  options:
+    default:
+      minVersion: VersionTLS13    # change to a lower version if you expect to service Internet traffic from around the world
+      curvePreferences:   # below priority sequence can be changed
+        - X25519     # the most commonly used 128-bit
+        - CurveP256  # the next most commonly used 128-bit
+        - CurveP384  # 192-bit
+        - CurveP521  # 256-bit
+      sniStrict: true
+  stores:
+    default:
+      defaultGeneratedCert:
+        resolver: cloudflare
+        domain:
+          main: <yourdomain>.com
+          sans:
+            - "*.<yourdomain>.com"

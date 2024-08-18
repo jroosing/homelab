@@ -13,6 +13,13 @@ When you passthrough your iGPU, it will _NO LONGER_ be available for proxmox its
 | Host | This is proxmox itself. When changing something on the host, it means on your proxmox machine itself, not a VM or LXC. |
 | Guest | The VM's / LXC's |
 
+# VM Setup
+![Proxmox VM Hardware info](images/proxmox_vm_hw.png)
+
+I think the most important bits here are the Machine and the BIOS (and of course the PCI Device which we will add later in this guide)
+
+I have not tested this with other machine types and other BIOS types.
+
 ## Host configuration
 Edit the grub configuration file
 
@@ -92,3 +99,48 @@ In the Proxmox UI, select the VM you want to pass the iGPU to and select hardwar
 
 My settings are as follows:
 
+![Proxmox VM PCI Device](images/proxmox_vm_pci_device.png)
+Important bits here are the Device. When you open the dropdown, the iommu groups as shown in the dropdown have more logical names. Find the one that has something with graphics or gpu in the name. For example:
+
+![igpu](images/proxmox_pci_device_igpu.png).
+
+Make sure to enable "All Functions" and "ROM-Bar". If you use a q35 device, also select PCI-Express, which should have better performance.
+
+## Check the VM
+Having the PCI device added, we are effectively passing through our iGPU. 
+
+To verify this, start the VM and run the following command:
+
+```bash
+cd /dev/dri && ls -lah
+```
+The output should include the `renderD128`.
+
+This should typically be enough. If nothing shows up, you may have to install drivers (apt install for ubuntu.) You have to look up / find your drivers yourself.
+
+When running for example plex in docker compose, add the dev/dri as a device:
+
+```yaml
+  plex:
+    image: lscr.io/linuxserver/plex:latest
+    container_name: plex
+    ports:
+      - "32400:32400"
+    environment:
+      - PUID=${PLEX_UID}
+      - PGID=${MEDIACENTER_GID}
+      - VERSION=docker
+      - PLEX_CLAIM=${PLEX_CLAIM}
+    volumes:
+      - ${ROOT_DIR}/config/plex:/config
+      - ${ROOT_DIR}/data:/data
+    restart: unless-stopped
+    devices:
+      - /dev/dri:/dev/dri # This bit
+```
+
+And make sure that the user you run PLEX with is also part of the `render` group. If not:
+
+```bash
+sudo usermod -aG render $PLEX_USER
+```

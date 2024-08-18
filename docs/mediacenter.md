@@ -22,6 +22,11 @@ Make sure that if you go this route that your LXC/VM has a static IP
 
 Consumption is done via the official plex apps.
 
+## Hardware Transcoding (iGPU)
+My setup does not contain a dedicated GPU, hence we will only mention iGPU here.
+
+See [The transcode docs](plex_hw_transcode.md) for a full guide
+
 ## Stack
 
 - [Zurg](https://github.com/debridmediamanager/zurg-testing)

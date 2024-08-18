@@ -176,13 +176,15 @@ services:
       - ${ROOT_DIR}/config/plex:/config
       - ${ROOT_DIR}/data:/data
     restart: unless-stopped
+    devices:
+      - /dev/dri:/dev/dri
     depends_on:
       - rclone
     networks:
       - homelab
 
   zilean:
-    image: ipromknight/zilean:latest
+    image: ipromknight/zilean:1.4.0
     restart: unless-stopped
     container_name: zilean
     ports:

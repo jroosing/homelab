@@ -1,0 +1,122 @@
+http:
+  routers:
+    overseerr:
+      entryPoints:
+        - "websecure"
+      rule: "Host(`overseerr.<domain>.com`)"
+      middlewares:
+        - internal-https-hosts
+        - default-headers
+      tls:
+        certResolver: cloudflare
+        domains:
+          - main: "overseerr.<domain>.com"
+      service: overseerr
+
+    radarr:
+      entryPoints:
+        - "websecure"
+      rule: "Host(`radarr.<domain>.com`)"
+      middlewares:
+        - internal-https-hosts
+        - default-headers
+      tls:
+        certResolver: cloudflare
+        domains:
+          - main: "radarr.<domain>.com"
+      service: radarr
+
+    sonarr:
+      entryPoints:
+        - "websecure"
+      rule: "Host(`sonarr.<domain>.com`)"
+      middlewares:
+        - internal-https-hosts
+        - default-headers
+      tls:
+        certResolver: cloudflare
+        domains:
+          - main: "sonarr.<domain>.com"
+      service: sonarr
+
+    prowlarr:
+      entryPoints:
+        - "websecure"
+      rule: "Host(`prowlarr.<domain>.com`)"
+      middlewares:
+        - internal-https-hosts
+        - default-headers
+      tls:
+        certResolver: cloudflare
+        domains:
+          - main: "prowlarr.<domain>.com"
+      service: prowlarr
+
+    rdtclient:
+      entryPoints:
+        - "websecure"
+      rule: "Host(`rdtclient.<domain>.com`)"
+      middlewares:
+        - internal-https-hosts
+        - default-headers
+      tls:
+        certResolver: cloudflare
+        domains:
+          - main: "rdtclient.<domain>.com"
+      service: rdtclient
+
+    plex:
+      entryPoints:
+        - "websecure"
+      rule: "Host(`plex.<domain>.com`)"
+      middlewares:
+        - internal-https-hosts
+        - default-headers
+      tls:
+        certResolver: cloudflare
+        domains:
+          - main: "plex.<domain>.com"
+      service: plex
+
+  services:
+    overseerr:
+      loadBalancer:
+        servers:
+          - url: "http://<IP>:<PORT>"
+        passHostHeader: true
+        serversTransport: "insecureVerify"
+
+    radarr:
+      loadBalancer:
+        servers:
+          - url: "http://<IP>:<PORT>"
+        passHostHeader: true
+        serversTransport: "insecureVerify"
+
+    sonarr:
+      loadBalancer:
+        servers:
+          - url: "http://<IP>:<PORT>"
+        passHostHeader: true
+        serversTransport: "insecureVerify"
+
+    prowlarr:
+      loadBalancer:
+        servers:
+          - url: "http://<IP>:<PORT>"
+        passHostHeader: true
+        serversTransport: "insecureVerify"
+
+    rdtclient:
+      loadBalancer:
+        servers:
+          - url: "http://<IP>:<PORT>"
+        passHostHeader: true
+        serversTransport: "insecureVerify"
+
+    plex:
+      loadBalancer:
+        servers:
+          - url: "http://<IP>:<PORT>"
+        passHostHeader: true
+        serversTransport: "insecureVerify"

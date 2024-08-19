@@ -19,17 +19,63 @@ An important difference is that for static config changes you need to restart tr
 
 In my /etc/traefik I have the following layout:
 
-- acme.json (for letsencrypt certs)
-- dynamic (directory containing dynamic config)
+- ssl/acme.json (make sure this file has chmod 600 rights applied)
+- conf.d (directory containing dynamic config)
 - traefik.yaml
 
-Inside dynamic I host a couple of yaml files:
+Inside conf.d I host a couple of yaml files:
 
 - core.yaml (contains for example middleware that I apply to all app routers)
 - [APP].yaml (e.g. pihole.yaml, plex.yaml, etc..)
   - Note that you can also just throw all config in one file but for me it became hard to manage
 
 Apart from the config in this directory, no other configuration is needed.
+
+## Cloudflare
+For my traefik setup, I use cloudflare and letsencrypt.
+In order to set this up, it is assumed you have a domain available in cloudflare and have your basic account setup.
+
+### API KEY
+1. Log in to cloudflare. On the top right side, click on your profile icon and select "My Profile".
+2. Select API Tokens in the menu on the left
+3. Click the "Create Token" button
+4. Find "Custom token" and click the "Get started" button
+5. Give your token a descriptive name
+6. For permissions we need 2 entries: Zone -> Zone -> Read and Zone -> DNS -> Edit
+7. For Zone Resources select "Include" and "All zones from an account"
+8. Click "Continue to summary"
+9. Create the token and note down the actual api token. You will _NOT_ be able to retrieve it again. Losing it means creating a new api key.
+
+## Setting up the traefik service in the LXC
+```batch
+nano /etc/systemd/system/traefik.service
+```
+
+Under the [Service] section add a new key value:
+
+`Environment="CF_DNS_API_TOKEN=<YOUR TOKEN>"`
+
+The service should look something like this:
+
+```toml
+[Unit]
+Description=Traefik is an open-source Edge Router that makes publishing your services a fun and easy experience
+
+[Service]
+Type=notify
+Environment="CF_DNS_API_TOKEN=<YOUR TOKEN>"
+ExecStart=/usr/bin/traefik --configFile=/etc/traefik/traefik.yaml
+Restart=on-failure
+ExecReload=/bin/kill -USR1 $MAINPID
+
+[Install]
+WantedBy=multi-user.target
+```
+
+run `systemctl daemon-reload` and `service traefik restart`.
+
+## Note
+When modifying static configuration i.e. traefik.yaml, restart traefik to apply the changes (e.g. `service traefik restart`)
 
 ### acme.json
 When your config is in place, make sure this file is empty (you can test by using letsencrypt staging, see [traefik.yaml](../traefik/traefik.yaml)).

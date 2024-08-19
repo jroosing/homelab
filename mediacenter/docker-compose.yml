@@ -13,6 +13,8 @@ services:
       - zurg_data:/app/data
     networks:
       - homelab
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
 
   rclone:
     image: rclone/rclone:latest
@@ -45,6 +47,8 @@ services:
     command: "mount zurg: /data --allow-non-empty --allow-other --uid=${RCLONE_UID} --gid=${MEDIACENTER_GID} --umask=002 --dir-cache-time 10s --vfs-cache-mode full"
     networks:
       - homelab
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
 
   rdtclient:
     image: rogerfar/rdtclient:latest
@@ -68,6 +72,8 @@ services:
         max-size: 10m
     networks:
       - homelab
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
 
   sonarr:
     image: lscr.io/linuxserver/sonarr:latest
@@ -87,7 +93,8 @@ services:
       - rclone
     networks:
       - homelab
-
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
 
   radarr:
     image: lscr.io/linuxserver/radarr:latest
@@ -107,6 +114,8 @@ services:
       - rclone
     networks:
       - homelab
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
 
   recyclarr:
     image: ghcr.io/recyclarr/recyclarr:latest
@@ -123,6 +132,8 @@ services:
       - sonarr
     networks:
       - homelab
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
 
   prowlarr:
     image: lscr.io/linuxserver/prowlarr:develop
@@ -141,6 +152,8 @@ services:
       - rclone
     networks:
       - homelab
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
 
   overseerr:
     image: sctx/overseerr:latest
@@ -161,6 +174,8 @@ services:
       - prowlarr
     networks:
       - homelab
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
 
   plex:
     image: lscr.io/linuxserver/plex:latest
@@ -182,6 +197,8 @@ services:
       - rclone
     networks:
       - homelab
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
 
   zilean:
     image: ipromknight/zilean:1.4.0
@@ -204,6 +221,8 @@ services:
         condition: service_healthy
     networks:
       - homelab
+    labels:
+      - "com.centurylinklabs.watchtower.enable=false"
 
   elasticsearch:
     image: elasticsearch:8.14.1@sha256:ff3998ab3d8a84984e5298d33d01a174fc5f8abed15ad58d0a54364fc63d68d9
@@ -224,7 +243,9 @@ services:
     volumes:
       - elastic_data:/usr/share/elasticsearch/data:rw
     networks:
-      - homelab
+      - homelab 
+    labels:
+      - "com.centurylinklabs.watchtower.enable=false"
 
 volumes:
   zurg_data:

@@ -2,7 +2,7 @@ http:
   routers:
     pihole:
       entryPoints:
-        - "https"
+        - "websecure"
       rule: "Host(`pihole.<yourdomain>.com`)"
       middlewares:
         - internal-https-hosts

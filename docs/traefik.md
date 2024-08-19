@@ -115,7 +115,7 @@ Define where logs are placed and how long before rotating etc.
 
 #### entryPoints
 
-Define the http and https endpoint (they are also often called "web" and "websecure")
+Define the web (http) and websecure (https) endpoint (up to you how to name them)
 
 These are the entry points into traefik, so for all defined routers such as for pihole, proxmox and of course traefik itself.
 In the static config, we enable port 80 and 443 on the internal network.

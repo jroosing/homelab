@@ -2,7 +2,7 @@ http:
   routers:
     proxmox:
       entryPoints:
-        - "https"
+        - "websecure"
       rule: "Host(`pve.<yourdomain>.com`)"
       middlewares:
         - internal-https-hosts

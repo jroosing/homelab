@@ -1,3 +1,8 @@
+providers:
+  file:
+    directory: /etc/traefik/conf.d/
+    watch: true
+
 global:
   checkNewVersion: true
   sendAnonymousUsage: false
@@ -8,33 +13,54 @@ api:
   debug: false
   disableDashboardAd: true
 
-accesslog:
-  addInternals: true
-  filePath: "/var/log/traefik-access.log"
-  bufferingSize: 128
+entryPoints:
+  web:
+    address: ':80'
+    http:
+      redirections:
+        entryPoint:
+          to: websecure
+          scheme: https
+  websecure:
+    address: ':443'
+    http:
+      tls:
+        certResolver: cloudflare
+  traefik:
+    address: ':8080'
 
-log:
-  filePath: "/var/log/traefik-access.log"
-  level: INFO
-  maxAge: 48
-
-providers:
-  file:
-    directory: /etc/traefik/dynamic
-    watch: true
-
-# This bit is needed to allow traefik to generate certificates
 certificatesResolvers:
   cloudflare:
     acme:
-      caServer: https://acme-v02.api.letsencrypt.org/directory #prod
-      #caServer: https://acme-staging-v02.api.letsencrypt.org/directory #staging
-      email: <cloudflare email> # add your actual email that you used for cloudflare
-      storage: /etc/traefik/acme.json
+      #caServer: https://acme-v02.api.letsencrypt.org/directory #prod
+      caServer: https://acme-staging-v02.api.letsencrypt.org/directory #staging
+      email: <YOUR EMAIL> # add your actual email that you used for cloudflare
+      storage: /etc/traefik/ssl/acme.json
       dnsChallenge:
         provider: cloudflare
         delayBeforeCheck: 10s
         resolvers:
           - '1.1.1.1:53'
           - '1.0.0.1:53'
-    
+
+log:
+  filePath: /var/log/traefik/traefik.log
+  format: json
+  level: INFO
+  maxAge: 48
+
+accessLog:
+  filePath: /var/log/traefik/traefik-access.log
+  format: json
+  filters:
+    statusCodes:
+      - "200"
+      - "400-599"
+    retryAttempts: true
+    minDuration: "10ms"
+  bufferingSize: 0
+  fields:
+    headers:
+      defaultMode: drop
+      names:
+        User-Agent: keep

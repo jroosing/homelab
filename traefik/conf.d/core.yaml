@@ -2,7 +2,7 @@ http:
   routers:
     dashboard:
       entryPoints:
-        - "https"
+        - "websecure"
       rule: "Host(`traefik.<yourdomain>.com`)"
       service: api@internal
       middlewares:
@@ -15,8 +15,8 @@ http:
     # catchall rule, evaluated when no router exists for a request; applicable to http and https only
     catchall:
       entryPoints:
-        - "http"
-        - "https"
+        - "web"
+        - "websecure"
       rule: "PathPrefix(`/`)"
       service: unavailable
       priority: 1

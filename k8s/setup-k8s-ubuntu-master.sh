@@ -17,8 +17,6 @@ if ! [[ $ADVERTISE_ADDRESS =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
   exit 1
 fi
 
-source ./install-k8s-ubuntu.sh
-
 # Initialize the Kubernetes control plane with kubeadm
 echo "[INFO] Initializing Kubernetes control plane..."
 sudo kubeadm init \

@@ -1,3 +1,4 @@
 .env
 zurg.yml
 .vscode
+k8s-join-command.txt

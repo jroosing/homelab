@@ -2,3 +2,17 @@
 zurg.yml
 .vscode
 k8s-join-command.txt
+cloudflare-api-token-secret.yaml
+metallb.yaml
+
+# k8s/metallb
+k8s/metallb/*.yaml
+!k8s/metallb/*.sample.yaml
+
+# k8s/certmanager
+k8s/certmanager/*.yaml
+!k8s/certmanager/*.sample.yaml
+
+# k8s/argocd
+k8s/argocd/*.yaml
+!k8s/argocd/*.sample.yaml

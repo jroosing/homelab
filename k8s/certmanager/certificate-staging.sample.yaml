@@ -1,0 +1,23 @@
+# only apply this if you want to self-manage certificates.
+# this means that in the ingress you do not have the cert-manager.io/cluster-issuer annotation
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: example-com-stg-wildcard-cert
+  namespace: cert-manager
+spec:
+  secretName: example-com-stg-wildcard-tls
+  issuerRef:
+    name: letsencrypt-staging
+    kind: ClusterIssuer
+  dnsNames:
+    - 'example.com'
+    - "*.example.com"
+  duration: 2160h # 90 days
+  renewBefore: 360h # 15 days before expiration
+  secretTemplate:
+    annotations:
+      reflector.v1.k8s.emberstack.com/reflection-allowed: "true"
+      reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces: "cert-manager,dev,staging,prod"  # Control destination namespaces
+      reflector.v1.k8s.emberstack.com/reflection-auto-enabled: "true" # Auto create reflection for matching namespaces
+      reflector.v1.k8s.emberstack.com/reflection-auto-namespaces: "cert-manager,dev,staging,prod" # Control auto-reflection namespaces
